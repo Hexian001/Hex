@@ -27,7 +27,7 @@ export default function StakingPage() {
       <LockGate unlocked={unlocked} sold={hex.sold} title="Staking is sealed">
         <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
           <article className="panel rounded-3xl p-6">
-            <p className="text-sm text-muted">Available HEX {money(hex.hex)}</p>
+            <p className="text-sm text-muted">Available HEX {hexAmount(hex.hex)}</p>
             <label className="mt-4 block text-xs uppercase tracking-[0.16em] text-muted">
               Stake amount
             </label>

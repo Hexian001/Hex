@@ -28,7 +28,7 @@ Open [http://localhost:3000](http://localhost:3000). Connect any sandbox wallet 
 On the dashboard:
 
 - **Simulate 60% sold** — unlocks staking and investment so those flows can be reviewed.
-- **+5,000 USDT** — sandbox top-up.
+- **+5,000 USDT** / **+500 HEX** — sandbox top-ups so staking can be reviewed immediately.
 - **Reset demo** — clears `localStorage`.
 
 Balances and the sale counter persist in the browser. Nothing here is a live mainnet contract.

@@ -167,6 +167,7 @@ type Action =
   | { type: "harvest-invest"; id: string }
   | { type: "withdraw"; amount: number }
   | { type: "faucet" }
+  | { type: "faucetHex" }
   | { type: "simulateUnlock" }
   | { type: "reset" };
 
@@ -417,6 +418,20 @@ function reducer(state: HexState, action: Action): HexState {
         toast: "5,000 demo USDT added.",
       };
     }
+    case "faucetHex": {
+      if (!state.address) return state;
+      return {
+        ...state,
+        hex: state.hex + 500,
+        txs: pushTx(state, {
+          kind: "faucet",
+          label: "Sandbox HEX top-up",
+          amount: 500,
+          asset: "HEX",
+        }),
+        toast: "500 demo HEX added for staking review.",
+      };
+    }
     case "simulateUnlock": {
       const settled = settle(state);
       const need = Math.max(0, Math.ceil(PROTOCOL.totalNodes * PROTOCOL.unlockRatio) - soldTotal(settled.sold));
@@ -461,6 +476,7 @@ type HexContextValue = HexState & {
   harvestInvest: (id: string) => void;
   withdrawHex: (amount: number) => void;
   faucet: () => void;
+  faucetHex: () => void;
   simulateUnlock: () => void;
   reset: () => void;
   clearToast: () => void;
@@ -525,6 +541,7 @@ export function HexProvider({ children }: { children: ReactNode }) {
       harvestInvest: (id) => dispatch({ type: "harvest-invest", id }),
       withdrawHex: (amount) => dispatch({ type: "withdraw", amount }),
       faucet: () => dispatch({ type: "faucet" }),
+      faucetHex: () => dispatch({ type: "faucetHex" }),
       simulateUnlock: () => dispatch({ type: "simulateUnlock" }),
       reset: () => dispatch({ type: "reset" }),
       clearToast: () => dispatch({ type: "toast", message: null }),

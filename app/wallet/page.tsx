@@ -25,7 +25,7 @@ export default function WalletPage() {
         </article>
         <article className="panel rounded-3xl p-6">
           <p className="text-xs uppercase tracking-[0.16em] text-muted">Liquid HEX</p>
-          <p className="display mt-2 text-4xl">{money(hex.hex)}</p>
+          <p className="display mt-2 text-4xl">{hexAmount(hex.hex)}</p>
         </article>
         <article className="panel rounded-3xl p-6">
           <p className="text-xs uppercase tracking-[0.16em] text-muted">Pending airdrop</p>
@@ -71,7 +71,7 @@ export default function WalletPage() {
                   </span>
                 </span>
                 <span className="text-gold">
-                  {tx.amount.toFixed(2)} {tx.asset}
+                  {tx.asset === "HEX" ? hexAmount(tx.amount) : money(tx.amount)} {tx.asset}
                 </span>
               </li>
             ))}

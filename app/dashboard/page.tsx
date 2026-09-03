@@ -39,7 +39,7 @@ export default function DashboardPage() {
       <div className="grid gap-4 md:grid-cols-4">
         {[
           ["USDT", money(hex.usdt), "Spendable"],
-          ["HEX", money(hex.hex), "Liquid"],
+          ["HEX", hexAmount(hex.hex), "Liquid"],
           ["Pending airdrop", hexAmount(hex.pendingAirdrop), "Claim on Airdrop"],
           ["Daily mining", `${hexAmount(daily)} HEX`, `${hex.nodes.length} nodes`],
         ].map(([label, value, hint]) => (
@@ -106,6 +106,13 @@ export default function DashboardPage() {
             className="rounded-full border border-line px-4 py-2 text-sm"
           >
             +5,000 USDT
+          </button>
+          <button
+            type="button"
+            onClick={hex.faucetHex}
+            className="rounded-full border border-line px-4 py-2 text-sm"
+          >
+            +500 HEX
           </button>
           <button
             type="button"

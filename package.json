@@ -1,0 +1,28 @@
+{
+  "name": "hexvi-bot",
+  "version": "3.0.0",
+  "private": true,
+  "description": "HexVi3 Telegram MFI trading bot (5m, Acc1, Osaka)",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "status": "tsx src/index.ts --status-once",
+    "test": "tsx --test test/**/*.test.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "ccxt": "^4.4.82",
+    "dotenv": "^16.4.7",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  }
+}

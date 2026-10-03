@@ -1,0 +1,14 @@
+{
+  "id": "hexvi2-mfi-5m-nostop-1",
+  "label": "temporary",
+  "product": "HexVi3",
+  "timeframe": "5m",
+  "indicator": "MFI",
+  "account": "Acc1",
+  "nostop": true,
+  "mfiPeriod": 14,
+  "oversold": 20,
+  "overbought": 80,
+  "symbol": "BTC/USDT",
+  "notes": "Temporary HexVi3 profile: 5m MFI entries, no hard stop (nostop). Exit on opposite MFI extreme or manual."
+}

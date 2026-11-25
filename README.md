@@ -54,7 +54,7 @@ The operator portal lists three virtual compute licenses at 1,000, 2,000, and 4,
 Copy `.env.example` to `.env.local` if you want to override the public genesis address:
 
 ```bash
-NEXT_PUBLIC_GENESIS_ADDRESS=0x95093FA66De3af568c662f91A844267F2c9Ceff7
+NEXT_PUBLIC_GENESIS_ADDRESS=0x6928a6a87c88482f27ef59255496AA273f68c37a
 ```
 
 When the connected address equals that value (case-insensitive), the header shows an **Admin** link to `/admin`. Only the public address is committed; the genesis private key is never stored in git.

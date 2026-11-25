@@ -47,4 +47,14 @@ If a key is set and the provider call fails, the workspace shows the error. It d
 
 ## Nodes
 
-The operator portal lists three virtual compute licenses at 1,000, 2,000, and 4,000 USDT. Connect wallet is a preview: it describes the USDT transfer a live wallet would request and does not broadcast a transaction. The page states the price and the capacity the buyer is licensing.
+The operator portal lists three virtual compute licenses at 1,000, 2,000, and 4,000 USDT. Connect wallet uses an injected browser wallet (wagmi + viem) on BNB Smart Chain. Purchase broadcast is not enabled yet; the desk still states the USDT transfer a live buy would request.
+
+## Wallet and genesis admin
+
+Copy `.env.example` to `.env.local` if you want to override the public genesis address:
+
+```bash
+NEXT_PUBLIC_GENESIS_ADDRESS=0x95093FA66De3af568c662f91A844267F2c9Ceff7
+```
+
+When the connected address equals that value (case-insensitive), the header shows an **Admin** link to `/admin`. Only the public address is committed; the genesis private key is never stored in git.

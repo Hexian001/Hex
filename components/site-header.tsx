@@ -3,7 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
+import { ConnectWallet } from "@/components/connect-wallet";
 import { HexMark } from "@/components/hex-mark";
+import { isGenesisAdmin } from "@/lib/genesis";
 
 const LINKS = [
   { href: "/", label: "Overview" },
@@ -15,6 +18,13 @@ const LINKS = [
 export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const { address } = useAccount();
+  const showAdmin = mounted && isGenesisAdmin(address);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -27,12 +37,12 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-bg/90 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-6xl items-center gap-6 px-5 md:px-8">
+      <div className="mx-auto flex h-16 max-w-6xl items-center gap-4 px-5 md:gap-6 md:px-8">
         <Link href="/" className="flex items-center gap-2.5 text-amber" aria-label="Hivera home">
           <HexMark />
           <span className="font-mono text-[0.78rem] tracking-[0.22em] text-ink">HIVERA</span>
         </Link>
-        <nav className="ml-auto hidden items-center gap-6 md:flex" aria-label="Primary">
+        <nav className="ml-auto hidden items-center gap-5 md:flex" aria-label="Primary">
           {LINKS.map((link) => (
             <Link
               key={link.href}
@@ -45,7 +55,18 @@ export function SiteHeader() {
               {link.label}
             </Link>
           ))}
-          <span className="font-mono text-xs tracking-wide text-faint">hivera.net</span>
+          {showAdmin ? (
+            <Link
+              href="/admin"
+              aria-current={isActive(pathname, "/admin") ? "page" : undefined}
+              className={`text-sm ${
+                isActive(pathname, "/admin") ? "text-brass" : "text-amber hover:text-brass"
+              }`}
+            >
+              Admin
+            </Link>
+          ) : null}
+          <ConnectWallet />
         </nav>
         <button
           type="button"
@@ -72,7 +93,22 @@ export function SiteHeader() {
                 </Link>
               </li>
             ))}
+            {showAdmin ? (
+              <li>
+                <Link
+                  href="/admin"
+                  aria-current={isActive(pathname, "/admin") ? "page" : undefined}
+                  className="block py-3 font-serif text-3xl text-amber"
+                  onClick={() => setOpen(false)}
+                >
+                  Admin
+                </Link>
+              </li>
+            ) : null}
           </ul>
+          <div className="mt-4">
+            <ConnectWallet variant="primary" />
+          </div>
           <p className="mt-4 font-mono text-xs text-faint">hivera.net</p>
         </nav>
       ) : null}

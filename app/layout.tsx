@@ -3,6 +3,7 @@ import { Figtree, IBM_Plex_Mono, Instrument_Serif } from "next/font/google";
 import type { ReactNode } from "react";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { WalletProvider } from "@/components/wallet-provider";
 import "./globals.css";
 
 const figtree = Figtree({
@@ -41,14 +42,16 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       className={`${figtree.variable} ${instrument.variable} ${plex.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col font-sans">
-        <a className="skip-link" href="#content">
-          Skip to content
-        </a>
-        <SiteHeader />
-        <main id="content" className="flex-1">
-          {children}
-        </main>
-        <SiteFooter />
+        <WalletProvider>
+          <a className="skip-link" href="#content">
+            Skip to content
+          </a>
+          <SiteHeader />
+          <main id="content" className="flex-1">
+            {children}
+          </main>
+          <SiteFooter />
+        </WalletProvider>
       </body>
     </html>
   );

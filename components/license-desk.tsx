@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Dialog } from "@/components/dialog";
+import { useAccount } from "wagmi";
+import { ConnectWallet } from "@/components/connect-wallet";
 import {
   LICENSES,
   buyerGets,
@@ -10,18 +10,15 @@ import {
   walletWouldDo,
   type WorkerLicense,
 } from "@/lib/licenses";
-
-const PREVIEW_ADDRESS = "0xPREVIEW0000000000000000000000HIVE";
+import { useState } from "react";
 
 export function LicenseDesk() {
   const [selectedId, setSelectedId] = useState<WorkerLicense["id"] | null>(null);
-  const [walletOpen, setWalletOpen] = useState(false);
-  const [showPreview, setShowPreview] = useState(false);
+  const { address, isConnected } = useAccount();
   const selected = LICENSES.find((license) => license.id === selectedId) ?? null;
 
   function choose(id: WorkerLicense["id"]) {
     setSelectedId(id);
-    setShowPreview(false);
   }
 
   return (
@@ -74,9 +71,19 @@ export function LicenseDesk() {
               <li>{selected.slots} concurrent inference slots</li>
               <li>{selected.tokensPerMonth} tokens scheduled per month</li>
             </ul>
-            <button type="button" className="btn btn-primary mt-6 w-full" onClick={() => setWalletOpen(true)}>
-              Connect wallet
-            </button>
+            <div className="mt-6">
+              <ConnectWallet variant="primary" />
+            </div>
+            {isConnected && address ? (
+              <div className="mt-4 border border-line bg-bg px-3 py-3">
+                <p className="font-mono text-[0.68rem] tracking-[0.14em] text-amber">CONNECTED</p>
+                <p className="mt-2 break-all font-mono text-sm text-ink">{address}</p>
+                <p className="mt-2 text-xs leading-relaxed text-faint">{walletWouldDo(selected)}</p>
+                <p className="mt-2 text-xs leading-relaxed text-faint">
+                  Purchase broadcast is not enabled yet. The connected wallet is ready for when transfers go live.
+                </p>
+              </div>
+            ) : null}
           </>
         ) : (
           <>
@@ -90,41 +97,10 @@ export function LicenseDesk() {
           </>
         )}
         <p className="mt-4 text-xs leading-relaxed text-faint">
-          Connect wallet opens a preview. It names the USDT transfer a live wallet would request. No transaction is sent.
+          Connect wallet uses your browser wallet (injected provider such as MetaMask) on BNB Smart Chain. No USDT
+          transfer is broadcast from this page yet.
         </p>
       </aside>
-
-      <Dialog
-        open={walletOpen && selected !== null}
-        title="Wallet connect preview"
-        onClose={() => {
-          setWalletOpen(false);
-          setShowPreview(false);
-        }}
-      >
-        {selected ? (
-          <div className="space-y-4 text-sm leading-relaxed text-muted">
-            <p className="font-mono text-base text-brass">
-              {selected.name} · {formatUsdt(selected.priceUsdt)}
-            </p>
-            <p>{buyerGets(selected)}</p>
-            <p>{walletWouldDo(selected)}</p>
-            {showPreview ? (
-              <div className="border border-line bg-bg px-3 py-3">
-                <p className="font-mono text-[0.68rem] tracking-[0.14em] text-amber">PREVIEW ADDRESS</p>
-                <p className="mt-2 break-all font-mono text-sm text-ink">{PREVIEW_ADDRESS}</p>
-                <p className="mt-2 text-xs text-faint">
-                  Generated in the browser for this layout. Not a wallet, not a key, and not an account on a chain.
-                </p>
-              </div>
-            ) : (
-              <button type="button" className="btn btn-ghost" onClick={() => setShowPreview(true)}>
-                Show a preview address
-              </button>
-            )}
-          </div>
-        ) : null}
-      </Dialog>
     </div>
   );
 }
